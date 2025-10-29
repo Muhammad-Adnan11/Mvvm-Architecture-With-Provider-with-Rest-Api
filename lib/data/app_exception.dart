@@ -34,3 +34,7 @@ class NoInternetException extends AppException {
   NoInternetException([String? message])
     : super(message, 'No Internet Connection');
 }
+
+class TimeoutRequest extends AppException {
+  TimeoutRequest([String, message]) : super(message, "Request time is out");
+}
