@@ -42,7 +42,7 @@ class NetworkApiServices extends BaseApiServices {
   }
   // -------------------- Generic POST --------------------
   @override
-  Future postAllFunction(String url, String? token, body) async {
+  Future postAllFunction(String url, body,[String? token]) async {
     try {
       final response = await http.post(
         Uri.parse(url),
