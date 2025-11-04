@@ -42,7 +42,7 @@ class NetworkApiServices extends BaseApiServices {
   }
   // -------------------- Generic POST --------------------
   @override
-  Future postAllFunction(String url, body,[String? token]) async {
+  Future postAllFunction(String url, {String? token,dynamic body}) async {
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -69,7 +69,7 @@ class NetworkApiServices extends BaseApiServices {
 
   // -------------------- Generic PUT ---------------------
   @override
-  Future putAllFunction(String url, String? token, body) async {
+  Future putAllFunction(String url, {String? token, body}) async {
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -96,7 +96,7 @@ class NetworkApiServices extends BaseApiServices {
 
   // -------------------- Generic PATCH ---------------------
   @override
-  Future patchAllFunction(String url, String? token, body) async {
+  Future patchAllFunction(String url, {String? token, body}) async {
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -123,7 +123,7 @@ class NetworkApiServices extends BaseApiServices {
 
   // -------------------- Generic DELETE ------------------
   @override
-  Future deleteAllFunction(String url, String? token, body) async {
+  Future deleteAllFunction(String url, {String? token, body}) async {
     try {
       final response = await http.post(
         Uri.parse(url),

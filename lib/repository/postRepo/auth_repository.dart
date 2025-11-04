@@ -7,8 +7,7 @@ class AuthRepository {
     try {
       final reponse = networkApiServices.postAllFunction(
         AppUrls.loginUrl,
-
-        data,
+       body: data,
       );
       print("Response------>$reponse");
     } catch (e) {
@@ -21,8 +20,7 @@ class AuthRepository {
     try {
       final reponse = networkApiServices.postAllFunction(
         AppUrls.loginUrl,
-        null,
-        data,
+       body: data,
       );
       print("Response------>$reponse");
     } catch (e) {
