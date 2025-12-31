@@ -77,9 +77,6 @@ class NetworkApiServices extends BaseApiServices {
       print('Unuthorized request.');
     } on BadRequestException{
       print('invild request.');
-      print('invild request.');
-      print('invild request.');
-      print('invild request.');
     }
     catch (e) {
       throw Exception('error is --------------->${e}');
