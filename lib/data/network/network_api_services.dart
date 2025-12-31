@@ -36,8 +36,23 @@ class NetworkApiServices extends BaseApiServices {
   }
  // -------------------- Generic GET ----------------------
  @override
-  Future getAllFunction(String url, String? token) {
+  Future getAllFunction(String url, {String? token})async {
     // TODO: implement getAllFunction
+    try{
+    final response = await http.get(Uri.parse(url),headers:headers).timeout(_timeoutDuration);
+      return response;
+    }on NoInternetException{
+      print( 'No internet connection, please try again later');
+    }on TimeoutRequest{
+      print('Request timed out. Please try again.');
+    }on UnauthorisedException{
+      print('Unuthorized request.');
+    }on BadRequestException{
+      print('invild request.');
+    }
+    catch(e){
+ throw Exception('error is --------------->${e}');
+    }
     throw UnimplementedError();
   }
   // -------------------- Generic POST --------------------
@@ -71,7 +86,7 @@ class NetworkApiServices extends BaseApiServices {
   @override
   Future putAllFunction(String url, {String? token, body}) async {
     try {
-      final response = await http.post(
+      final response = await http.put(
         Uri.parse(url),
         headers: headers,
         body: jsonEncode(body),
@@ -98,7 +113,7 @@ class NetworkApiServices extends BaseApiServices {
   @override
   Future patchAllFunction(String url, {String? token, body}) async {
     try {
-      final response = await http.post(
+      final response = await http.patch(
         Uri.parse(url),
         headers: headers,
         body: jsonEncode(body),
@@ -125,7 +140,7 @@ class NetworkApiServices extends BaseApiServices {
   @override
   Future deleteAllFunction(String url, {String? token, body}) async {
     try {
-      final response = await http.post(
+      final response = await http.delete(
         Uri.parse(url),
         headers: headers,
         body: jsonEncode(body),
