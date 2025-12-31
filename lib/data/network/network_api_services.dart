@@ -11,29 +11,6 @@ class NetworkApiServices extends BaseApiServices {
     "Content-Type": "Applicaton/json",
     "accepte": "application/json",
   };
-  // -------------------- Generic GET --------------------
-  Future<dynamic> allGetFunctions(String url, dynamic requestBody) async {
-    try {
-      final response = await http.post(
-        Uri.parse(url),
-        headers: headers,
-        body: jsonEncode(requestBody),
-      ).timeout(_timeoutDuration);
-      return response;
-    }on NoInternetException{
-      print("No internet connection, please try again later");
-    }on TimeoutRequest{
-      print('Request timed out. Please try again.');
-    }on UnauthorisedException{
-      print('Unuthorized request.');
-    }on BadRequestException{
-      print('invild request.');
-    }
-     catch (e) {
-      throw Exception('error is --------------->${e}');
-      debugPrint(e.toString());
-    }
-  }
  // -------------------- Generic GET ----------------------
  @override
   Future getAllFunction(String url, {String? token})async {
@@ -154,6 +131,9 @@ class NetworkApiServices extends BaseApiServices {
       print('Unuthorized request.');
     }on BadRequestException{
       print('invild request.');
+       print('invild request.');
+        print('invild request.');
+         print('invild request.');
     }
      catch (e) {
       throw Exception('error is --------------->${e}');
