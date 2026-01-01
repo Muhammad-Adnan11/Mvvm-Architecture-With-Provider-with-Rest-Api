@@ -41,10 +41,10 @@ class NetworkApiServices extends BaseApiServices {
         body: jsonEncode(body),
       ).timeout(_timeoutDuration);
       return response;
-    }on NoInternetException{
-      print( 'No internet connection, please try again later');
-    }on TimeoutRequest{
-      print('Request timed out. Please try again.');
+    }on SocketException{
+      throw NoInternetException('No internet connection, please try again later');
+    }on TimeoutException{
+      throw FetchDataException('Network Request time out.');
     }on UnauthorisedException{
       print('Unuthorized request.');
     }on BadRequestException{
@@ -65,10 +65,10 @@ class NetworkApiServices extends BaseApiServices {
         body: jsonEncode(body),
       ).timeout(_timeoutDuration);
       return response;
-    }on NoInternetException{
-      print('No internet connection, please try again later');
-    }on TimeoutRequest{
-      print('Request timed out. Please try again.');
+    }on SocketException{
+      throw NoInternetException('No internet connection, please try again later');
+    }on TimeoutException{
+      throw FetchDataException('Network Request time out.');
     }on UnauthorisedException{
       print('Unuthorized request.');
     } on BadRequestException{
@@ -78,8 +78,6 @@ class NetworkApiServices extends BaseApiServices {
       throw Exception('error is --------------->${e}');
       debugPrint(e.toString());
     }
-    // TODO: implement putAllFunction
-    throw UnimplementedError();
   }
 
   // -------------------- Generic PATCH ---------------------
@@ -92,10 +90,10 @@ class NetworkApiServices extends BaseApiServices {
         body: jsonEncode(body),
       ).timeout(_timeoutDuration);
       return response;
-    }on NoInternetException{
-      print('No internet connection, please try again later');
-    }on TimeoutRequest{
-      print('Request timed out. Please try again.');
+    }on SocketException{
+      throw NoInternetException('No internet connection, please try again later');
+    }on TimeoutException{
+      throw FetchDataException('Network Request time out.');
     }on UnauthorisedException{
       print('Unuthorized request.');
     }on BadRequestException{
@@ -105,8 +103,6 @@ class NetworkApiServices extends BaseApiServices {
       throw Exception('error is --------------->${e}');
       debugPrint(e.toString());
     }
-    // TODO: implement patchAllFunction
-    throw UnimplementedError();
   }
 
   // -------------------- Generic DELETE ------------------
