@@ -1,5 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:mvvm_architecture_with_provider_with_rest_api/data/app_exception.dart';
 import 'package:mvvm_architecture_with_provider_with_rest_api/data/network/base_api_services.dart';
@@ -14,23 +15,21 @@ class NetworkApiServices extends BaseApiServices {
  // -------------------- Generic GET ----------------------
  @override
   Future getAllFunction(String url, {String? token})async {
-    // TODO: implement getAllFunction
     try{
     final response = await http.get(Uri.parse(url),headers:headers).timeout(_timeoutDuration);
       return response;
-    }on NoInternetException{
-      print( 'No internet connection, please try again later');
-    }on TimeoutRequest{
-      print('Request timed out. Please try again.');
+    }on SocketException{
+      throw NoInternetException('No internet connection, please try again later');
+    }on TimeoutException{
+      throw FetchDataException('Network Request time out.');
     }on UnauthorisedException{
       print('Unuthorized request.');
     }on BadRequestException{
       print('invild request.');
     }
     catch(e){
- throw Exception('error is --------------->${e}');
+      throw Exception('error is --------------->${e}');
     }
-    throw UnimplementedError();
   }
   // -------------------- Generic POST --------------------
   @override
@@ -53,10 +52,7 @@ class NetworkApiServices extends BaseApiServices {
     }
      catch (e) {
       throw Exception('error is --------------->${e}');
-      debugPrint(e.toString());
     }
-    // TODO: implement postAllFunction
-    throw UnimplementedError();
   }
 
   // -------------------- Generic PUT ---------------------
@@ -123,7 +119,8 @@ class NetworkApiServices extends BaseApiServices {
         body: jsonEncode(body),
       ).timeout(_timeoutDuration);
       return response;
-    }on NoInternetException{
+    }
+    on NoInternetException{
       print('No internet connection, please try again later');
     }on TimeoutRequest{
       print('Request timed out. Please try again.');
@@ -134,10 +131,7 @@ class NetworkApiServices extends BaseApiServices {
     }
      catch (e) {
       throw Exception('error is --------------->${e}');
-      debugPrint(e.toString());
     }
-    // TODO: implement deleteAllFunction
-    throw UnimplementedError();
   }
 
   ///////  End //////
