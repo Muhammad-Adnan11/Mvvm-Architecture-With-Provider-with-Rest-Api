@@ -76,7 +76,6 @@ class NetworkApiServices extends BaseApiServices {
     }
     catch (e) {
       throw Exception('error is --------------->${e}');
-      debugPrint(e.toString());
     }
   }
 
@@ -98,10 +97,8 @@ class NetworkApiServices extends BaseApiServices {
       print('Unuthorized request.');
     }on BadRequestException{
       print('invild request.');
-    }
-     catch (e) {
+    }catch (e) {
       throw Exception('error is --------------->${e}');
-      debugPrint(e.toString());
     }
   }
 
@@ -124,8 +121,7 @@ class NetworkApiServices extends BaseApiServices {
       print('Unuthorized request.');
     }on BadRequestException{
       print('invild request.');
-    }
-     catch (e) {
+    }catch (e) {
       throw Exception('error is --------------->${e}');
     }
   }
