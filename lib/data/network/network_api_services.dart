@@ -17,15 +17,11 @@ class NetworkApiServices extends BaseApiServices {
   Future getAllFunction(String url, {String? token})async {
     try{
     final response = await http.get(Uri.parse(url),headers:headers).timeout(_timeoutDuration);
-      return response;
+      return returnResponse(response);
     }on SocketException{
       throw NoInternetException('No internet connection, please try again later');
     }on TimeoutException{
       throw FetchDataException('Network Request time out.');
-    }on UnauthorisedException{
-      print('Unuthorized request.');
-    }on BadRequestException{
-      print('invild request.');
     }
     catch(e){
       throw Exception('error is --------------->${e}');
@@ -40,15 +36,11 @@ class NetworkApiServices extends BaseApiServices {
         headers: headers,
         body: jsonEncode(body),
       ).timeout(_timeoutDuration);
-      return response;
+      return returnResponse(response);
     }on SocketException{
       throw NoInternetException('No internet connection, please try again later');
     }on TimeoutException{
       throw FetchDataException('Network Request time out.');
-    }on UnauthorisedException{
-      print('Unuthorized request.');
-    }on BadRequestException{
-      print('invild request.');
     }
      catch (e) {
       throw Exception('error is --------------->${e}');
@@ -64,15 +56,11 @@ class NetworkApiServices extends BaseApiServices {
         headers: headers,
         body: jsonEncode(body),
       ).timeout(_timeoutDuration);
-      return response;
+      return returnResponse(response);
     }on SocketException{
       throw NoInternetException('No internet connection, please try again later');
     }on TimeoutException{
       throw FetchDataException('Network Request time out.');
-    }on UnauthorisedException{
-      print('Unuthorized request.');
-    } on BadRequestException{
-      print('invild request.');
     }
     catch (e) {
       throw Exception('error is --------------->${e}');
@@ -88,15 +76,11 @@ class NetworkApiServices extends BaseApiServices {
         headers: headers,
         body: jsonEncode(body),
       ).timeout(_timeoutDuration);
-      return response;
+      return returnResponse(response);
     }on SocketException{
       throw NoInternetException('No internet connection, please try again later');
     }on TimeoutException{
       throw FetchDataException('Network Request time out.');
-    }on UnauthorisedException{
-      print('Unuthorized request.');
-    }on BadRequestException{
-      print('invild request.');
     }catch (e) {
       throw Exception('error is --------------->${e}');
     }
@@ -111,7 +95,7 @@ class NetworkApiServices extends BaseApiServices {
         headers: headers,
         body: jsonEncode(body),
       ).timeout(_timeoutDuration);
-      return response;
+      return returnResponse(response);
     }
     on NoInternetException{
       print('No internet connection, please try again later');
@@ -128,24 +112,34 @@ class NetworkApiServices extends BaseApiServices {
 
   ///////  End //////
 
-  dynamic returnResponse(http.Response response) {
-    switch (response.statusCode) {
-      case 200:
-        dynamic responseJson = jsonDecode(response.body);
-        return responseJson;
-      case 201:
-        dynamic responseJson = jsonDecode(response.body);
-        return responseJson;
-      case 404:
-        dynamic responseJson = jsonDecode(response.body);
-        return responseJson;
-      case 400:
-        dynamic responseJson = jsonDecode(response.body);
-        return responseJson;
-      default:
-        throw FetchDataException(
-          'Error accorded while communicating with server ${response.statusCode}',
-        );
-    }
+ dynamic returnResponse(http.Response response) {
+  switch (response.statusCode) {
+    // SUCCESS CASES: Yahan data return hoga
+    case 200:
+    case 201:
+      dynamic responseJson = jsonDecode(response.body);
+      return responseJson;
+
+    // CLIENT ERROR CASES: Yahan Exception throw hogi
+    case 400:
+      // Server se aaya error message nikaal kar exception mein bhejein
+      throw BadRequestException(response.body.toString());
+    
+    case 401:
+    case 403:
+      throw UnauthorisedException(response.body.toString());
+
+    case 404:
+      throw FetchDataException('Server not found: 404');
+
+    // SERVER ERROR CASES
+    case 500:
+      throw FetchDataException('Internal Server Error: 500');
+
+    default:
+      throw FetchDataException(
+        'Error occurred while communicating with server with status code: ${response.statusCode}',
+      );
   }
+}
 }
