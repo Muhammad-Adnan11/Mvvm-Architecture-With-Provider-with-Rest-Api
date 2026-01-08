@@ -9,8 +9,8 @@ import 'package:http/http.dart' as http;
 class NetworkApiServices extends BaseApiServices {
   static const Duration _timeoutDuration = Duration(seconds: 20);
   final headers = {
-    "Content-Type": "Applicaton/json",
-    "accepte": "application/json",
+    "Content-Type": "applicaton/json",
+    "Accepte": "application/json",
   };
  // -------------------- Generic GET ----------------------
  @override
